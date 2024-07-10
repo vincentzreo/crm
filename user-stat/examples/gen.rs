@@ -57,12 +57,13 @@ async fn main() -> Result<()> {
     for i in 1..=500 {
         let users: HashSet<_> = (0..10000).map(|_| Faker.fake::<UserStat>()).collect();
         let start = Instant::now();
-        raw_insert(users, &pool).await?;
+        bulk_insert(users, &pool).await?;
         println!("Batch {} inserted in {:?}", i, start.elapsed());
     }
     Ok(())
 }
 
+#[allow(dead_code)]
 async fn raw_insert(users: HashSet<UserStat>, pool: &PgPool) -> Result<()> {
     let mut sql = String::with_capacity(10 * 1000 * 1000);
     sql.push_str(
