@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package metadata;
+
+import "metadata/messages.proto"; // 引入messages.proto文件
+
+
+service Metadata {
+    rpc Materialize(stream MaterializeRequest) returns (stream Content) {}
+}
