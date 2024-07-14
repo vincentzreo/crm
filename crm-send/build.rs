@@ -14,8 +14,8 @@ fn main() -> Result<()> {
     let build = tonic_build::configure();
     build.out_dir("src/pb").compile(
         &[
-            "../protos/metadata/messages.proto",
-            "../protos/metadata/rpc.proto",
+            "../protos/notification/messages.proto",
+            "../protos/notification/rpc.proto",
         ],
         &["../protos"],
     )?;

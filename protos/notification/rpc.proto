@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package notification;
+
+import "notification/messages.proto"; // 引入messages.proto文件
+
+
+// the notification service provides methods to send messages
+service Notification {
+    // Send a notification message to the recipients
+    rpc Send(stream SendRequest) returns (stream SendResponse) {}
+}
