@@ -22,19 +22,6 @@ impl Sender for InAppMessage {
     }
 }
 
-#[cfg(test)]
-impl InAppMessage {
-    pub fn fake() -> Self {
-        use uuid::Uuid;
-        Self {
-            message_id: Uuid::new_v4().to_string(),
-            derive_id: Uuid::new_v4().to_string(),
-            title: "Hello".to_string(),
-            body: "Hello, world!".to_string(),
-        }
-    }
-}
-
 impl From<InAppMessage> for Msg {
     fn from(value: InAppMessage) -> Self {
         Msg::InApp(value)
@@ -45,5 +32,18 @@ impl From<InAppMessage> for SendRequest {
     fn from(value: InAppMessage) -> Self {
         let msg: Msg = value.into();
         Self { msg: Some(msg) }
+    }
+}
+
+#[cfg(feature = "test_utils")]
+impl InAppMessage {
+    pub fn fake() -> Self {
+        use uuid::Uuid;
+        Self {
+            message_id: Uuid::new_v4().to_string(),
+            derive_id: Uuid::new_v4().to_string(),
+            title: "Hello".to_string(),
+            body: "Hello, world!".to_string(),
+        }
     }
 }
