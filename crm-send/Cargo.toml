@@ -29,6 +29,8 @@ tokio-stream = { workspace = true }
 uuid = { version = "1.10.0", features = ["v4"] }
 fake = { version = "2.9.2", features = ["derive", "chrono"], optional = true }
 nanoid = { version = "0.4.0", optional = true }
+user-stat.workspace = true
+crm-metadata.workspace = true
 
 
 [build-dependencies]

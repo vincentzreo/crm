@@ -15,7 +15,7 @@ async fn main() -> anyhow::Result<()> {
     let addr = format!("[::1]:{}", addr).parse()?;
     let scv = UserStatsService::new(config).await.into_server();
 
-    info!("Server listening on {}", addr);
+    info!("User-stats Server listening on {}", addr);
     Server::builder().add_service(scv).serve(addr).await?;
     Ok(())
 }

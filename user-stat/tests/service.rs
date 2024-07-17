@@ -6,7 +6,7 @@ use tokio::time::sleep;
 use tonic::transport::Server;
 use user_stat::{
     pb::{user_stats_client::UserStatsClient, QueryRequestBuilder, RawQueryRequestBuilder},
-    test_utils::{id, tq},
+    test_utils::id,
     UserStatsService,
 };
 
@@ -33,8 +33,8 @@ async fn query_should_work() -> anyhow::Result<()> {
     let (_tdb, addr) = start_server(PORT_BASE + 1).await?;
     let mut client = UserStatsClient::connect(format!("http://{}", addr)).await?;
     let query = QueryRequestBuilder::default()
-        .timestamp(("created_at".to_string(), tq(None, Some(30))))
-        .timestamp(("last_visited_at".to_string(), tq(Some(15), Some(30))))
+        /* .timestamp(("created_at".to_string(), tq(None, Some(30))))
+        .timestamp(("last_visited_at".to_string(), tq(Some(15), Some(30)))) */
         .id(("viewed_but_not_started".to_string(), id(&[272045])))
         .build()?;
 

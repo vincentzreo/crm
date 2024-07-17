@@ -15,7 +15,7 @@ async fn main() -> anyhow::Result<()> {
     let addr = format!("[::1]:{}", addr).parse()?;
     let scv = NotificationService::new(config).into_server();
 
-    info!("Server listening on {}", addr);
+    info!("Notification Server listening on {}", addr);
     Server::builder().add_service(scv).serve(addr).await?;
     Ok(())
 }

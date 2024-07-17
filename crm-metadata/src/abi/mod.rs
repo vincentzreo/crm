@@ -1,9 +1,11 @@
+use std::collections::HashSet;
+
 use chrono::{DateTime, Days, Utc};
 use fake::{
     faker::{chrono::en::DateTimeBetween, lorem::zh_cn::Sentence, name::zh_tw::Name},
     Fake, Faker,
 };
-use futures::{Stream, StreamExt as _};
+use futures::{stream, Stream, StreamExt as _};
 use prost_types::Timestamp;
 use rand::Rng;
 use tokio::sync::mpsc;
@@ -56,6 +58,27 @@ impl Content {
             likes: rng.gen_range(1234..100000),
             dislikes: rng.gen_range(123..10000),
         }
+    }
+    pub fn to_body(&self) -> String {
+        format!("Content: {:?}", self)
+    }
+}
+
+pub struct Tpl<'a>(&'a [Content]);
+
+impl<'a> Tpl<'a> {
+    pub fn new(contents: &'a [Content]) -> Self {
+        Tpl(contents)
+    }
+    pub fn to_body(&self) -> String {
+        format!("Tpl: {:?}", self.0)
+    }
+}
+
+impl MaterializeRequest {
+    pub fn new_with_ids(ids: &[u32]) -> impl Stream<Item = Self> {
+        let req: HashSet<_> = ids.iter().map(|id| Self { id: *id }).collect();
+        stream::iter(req)
     }
 }
 
