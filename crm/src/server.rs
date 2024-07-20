@@ -17,7 +17,7 @@ async fn main() -> anyhow::Result<()> {
     let tls = mem::take(&mut config.server.tls);
     let addr = config.server.port;
     let addr = format!("[::1]:{}", addr).parse()?;
-    let scv = CrmService::try_new(config).await?.into_server();
+    let scv = CrmService::try_new(config).await?.into_server()?;
 
     info!("Crm Server listening on {}", addr);
     if let Some(tls) = tls {

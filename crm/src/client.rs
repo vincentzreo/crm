@@ -3,6 +3,7 @@ use crm::{
     AppConfig,
 };
 use tonic::{
+    metadata::MetadataValue,
     transport::{Certificate, Channel, ClientTlsConfig},
     Request,
 };
@@ -21,7 +22,14 @@ async fn main() -> anyhow::Result<()> {
         .tls_config(tls)?
         .connect()
         .await?;
-    let mut client = CrmClient::new(channel);
+
+    let token = include_str!("../../fixtures/token").trim();
+    let token: MetadataValue<_> = format!("Bearer {}", token).parse()?;
+
+    let mut client = CrmClient::with_interceptor(channel, move |mut req: Request<()>| {
+        req.metadata_mut().insert("authorization", token.clone());
+        Ok(req)
+    });
     let req = WelcomeRequestBuilder::default()
         .id(Uuid::new_v4().to_string())
         .interval(9)

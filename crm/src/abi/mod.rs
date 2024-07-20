@@ -1,4 +1,5 @@
 use std::sync::Arc;
+pub mod auth;
 
 use chrono::{Duration, Utc};
 use crm_metadata::pb::{Content, MaterializeRequest};
